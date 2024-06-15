@@ -21,8 +21,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const scene = createScene();
 
 
-  document.getElementById('upload-button').addEventListener('click', async () => {
-    const fileInput = document.getElementById('file-input');
+  document.getElementById('upload-model-button').addEventListener('click', async () => {
+    const fileInput = document.getElementById('model-file-input');
     const file = fileInput.files[0];
     if (file) {
       const formData = new FormData();
@@ -47,6 +47,19 @@ window.addEventListener('DOMContentLoaded', () => {
       } catch (error) {
         console.error("Error uploading and converting file:", error);
       }
+    }
+  });
+
+  document.getElementById('upload-sound-button').addEventListener('click', () => {
+    const fileInput = document.getElementById('sound-file-input');
+    const file = fileInput.files[0];
+    if (file && (file.type === 'audio/mp3' || file.type === 'audio/wav')) {
+      const audioPlayer = document.getElementById('audio-player');
+      const url = URL.createObjectURL(file);
+      audioPlayer.src = url;
+      audioPlayer.load();
+    } else {
+      alert('Please upload a valid MP3 or WAV file.');
     }
   });
   

@@ -11,17 +11,25 @@ body{
     height: 100%;
 }
 
-.upload-wrapper{
-    width: 10rem;
-    height: 10rem;
-    border-radius: 25px;
+.tools{
     position: absolute;
     z-index: 9999;
     top: 20px;
     left: 20px;
-    background: #fff;
 }
 
-.upload-wrapper input{
-    
+.upload-wrapper{
+    width: 10rem;
+    height: 10rem;
+    border-radius: 25px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.upload-wrapper input[type="file"]{
+    width: 100%;
+    border: 0;
+    background: transparent;
 }

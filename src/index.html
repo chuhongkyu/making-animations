@@ -6,10 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="upload-wrapper">
-        <input type="file" id="file-input" accept=".fbx">
-        <button id="upload-button">Upload and Convert</button>
+    <div class="tools">
+        <div class="upload-wrapper">
+            <input type="file" id="model-file-input" accept=".fbx"/>
+            <button id="upload-model-button">Upload and Convert</button>
+        </div>
+        <div class="upload-wrapper">
+            <input type="file" id="sound-file-input" accept="audio/mp3, audio/wav"/>
+            <button id="upload-sound-button">Upload Sound</button>
+        </div>
+        <div class="audio-controls">
+            <audio id="audio-player" controls>
+                Your browser does not support the audio element.
+            </audio>
+        </div>
     </div>
+    
     <canvas id="view-canvas"></canvas>
 </body>
 </html>
