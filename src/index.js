@@ -24,7 +24,14 @@ window.addEventListener('DOMContentLoaded', () => {
 function createScene(engine, canvas) {
   const scene = new BABYLON.Scene(engine);
 
-  const camera = new BABYLON.ArcRotateCamera('MainCamera', Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 5), scene);
+  const camera = new BABYLON.ArcRotateCamera(
+    'MainCamera', 
+    Math.PI / 2,
+    Math.PI / 2, 
+    2, 
+    new BABYLON.Vector3(0, 0, 5), 
+    scene
+  );
   camera.attachControl(canvas, true);
 
   const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
@@ -49,8 +56,8 @@ async function uploadModel(file, scene) {
 
     const data = await response.json();
     const url = data.url;
-
-    BABYLON.SceneLoader.Append('', url, scene, () => {
+    const fileName = data.fileName;
+    BABYLON.SceneLoader.ImportMesh('', url, fileName, scene, () => {
       console.log("Model loaded");
     });
   } catch (error) {
