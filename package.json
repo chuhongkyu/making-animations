@@ -26,8 +26,12 @@
   },
   "dependencies": {
     "@babylonjs/core": "^7.11.0",
+    "@babylonjs/gui": "^7.11.1",
+    "@babylonjs/gui-editor": "^7.11.1",
+    "@babylonjs/inspector": "^7.11.1",
     "@babylonjs/loaders": "^7.11.0",
     "@babylonjs/materials": "^7.11.0",
+    "@babylonjs/serializers": "^7.11.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "fbx2gltf": "^0.9.7-p1",
