@@ -18,7 +18,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   setupModelUpload(scene);
-  setupSoundUpload();
+  setupSoundUpload(scene);
 
   engine.runRenderLoop(() => {
     scene.render();

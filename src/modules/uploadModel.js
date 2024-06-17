@@ -1,3 +1,4 @@
+import { setModel } from "../utils/store";
 import createModel from "./createModel";
 
 async function uploadModel(file, scene) {
@@ -16,7 +17,9 @@ async function uploadModel(file, scene) {
         const data = await response.json();
         const url = data.url;
         const fileName = data.fileName;
-        createModel(url, fileName, scene);
+        setModel({ url, fileName });
+        createModel(scene);
+        
     } catch (error) {
         console.error('Error converting file:', error);
     }

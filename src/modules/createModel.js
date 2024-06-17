@@ -1,17 +1,38 @@
 import { SkeletonViewer } from '@babylonjs/core/Debug';
 import * as BABYLON from '@babylonjs/core';
-import { getBPM, getDuration, getIsPlaying } from '../utils/store';
+import { getBPM, getDuration, getIsPlaying, getModel } from '../utils/store';
 import { getRandomRotations } from './makePose';
 
-function createModel(url, fileName, scene) {
+let currentMeshes = [];
+let currentSkeletons = [];
+
+function clearPreviousModel() {
+    currentMeshes.forEach(mesh => {
+        mesh.dispose();
+    });
+    currentSkeletons.forEach(skeleton => {
+        skeleton.dispose();
+    });
+
+    currentMeshes = [];
+    currentSkeletons = [];
+}
+
+function createModel(scene) {
+    const { url, fileName } = getModel()
     const skeletonsViewr = document.querySelector(".skeletons-wrapper");
     skeletonsViewr.innerHTML = '';
 
+    clearPreviousModel();
+    
     BABYLON.SceneLoader.ImportMesh('', url, fileName, scene, (newMeshes, particleSystems, skeletons) => {
         console.log(newMeshes, skeletons);
 
-        let characterMesh = newMeshes[1];
-        let characterBones = skeletons[0];
+        currentMeshes = newMeshes;
+        currentSkeletons = skeletons;
+
+        let characterMesh = currentMeshes[1];
+        let characterBones = currentSkeletons[0];
 
         characterMesh.position = new BABYLON.Vector3(0, 0, 0);
 
@@ -30,11 +51,13 @@ function createModel(url, fileName, scene) {
         });
 
         characterBones.bones.forEach((bone) => {
-            skeletonsViewr.innerHTML += `<div class="bone">${bone.name}</div>`;
+            // skeletonsViewr.innerHTML += `<div class="bone">${bone.name}</div>`;
             bone.linkTransformNode(null);
         });
 
+
         let bpm = getBPM();
+        if(bpm === 0 || !bpm) return
         let duration = getDuration();
 
         const rotations = getRandomRotations(bpm, duration, baseRotations);

@@ -12,9 +12,26 @@ export function getRandomRotations(bpm, duration, baseRotations) {
 
     for (let i = 0; i < totalBeats; i++) {
         const frameRotations = baseRotations.map(baseRotation => {
-            const randomRotationX = (Math.random() - 0.5) * Math.PI / 2 + baseRotation.rotationX;
-            const randomRotationY = (Math.random() - 0.5) * Math.PI / 2 + baseRotation.rotationY;
-            const randomRotationZ = (Math.random() - 0.5) * Math.PI / 2 + baseRotation.rotationZ;
+            let randomRotationX, randomRotationY, randomRotationZ;
+            
+            if (baseRotation.name === 'mixamorig:Neck') {
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:LeftUpLeg' || baseRotation.name === 'mixamorig:RightUpLeg'){
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.5) * Math.PI / 2.5 + baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:Hips'){
+                randomRotationX = baseRotation.rotationX;
+                randomRotationY = baseRotation.rotationY;
+                randomRotationZ = baseRotation.rotationZ;
+            } else {
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationZ;
+            }
+
             return {
                 rotationX: randomRotationX,
                 rotationY: randomRotationY,
@@ -26,4 +43,3 @@ export function getRandomRotations(bpm, duration, baseRotations) {
 
     return rotations;
 }
-

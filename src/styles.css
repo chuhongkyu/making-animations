@@ -38,3 +38,11 @@ body{
     border-radius: 25px;
     background: #fff;
 }
+
+.audio-controls{
+    display: none;
+}
+
+.audio-controls.active{
+    display: block;
+}

@@ -1,3 +1,5 @@
+import { getBPM, getModel } from "../utils/store";
+import createModel from "./createModel";
 import uploadModel from "./uploadModel";
 import uploadSound from "./uploadSound";
 
@@ -11,14 +13,28 @@ function setupModelUpload(scene) {
     });
 }
 
-function setupSoundUpload() {
+function setupSoundUpload(scene) {
     document.getElementById('upload-sound-button').addEventListener('click', async () => {
         const fileInput = document.getElementById('sound-file-input');
         const file = fileInput.files[0];
         if (file) {
             await uploadSound(file);
+            createModel(scene)
+            updateAudioControls()
         }
    });
+}
+
+function updateAudioControls() {
+    const audioControls = document.querySelector('.audio-controls');
+    const { fileName } = getModel();
+    const bpm = getBPM();
+
+    if (fileName && bpm > 0) {
+        audioControls.classList.add('active');
+    } else {
+        audioControls.classList.remove('active');
+    }
 }
 
 export { setupModelUpload, setupSoundUpload };

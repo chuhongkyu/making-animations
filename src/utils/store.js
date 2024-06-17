@@ -1,6 +1,11 @@
 let bpm = 0;
 let duration = 0;
 let isPlaying = false;
+let model = {
+    url: null,
+    fileName: null,
+};
+
 
 export function setBPM(newBPM) {
     bpm = newBPM;
@@ -24,4 +29,12 @@ export function setIsPlaying(playing) {
 
 export function getIsPlaying() {
     return isPlaying;
+}
+
+export function setModel(newModel) {
+    model = newModel;
+}
+
+export function getModel() {
+    return model;
 }

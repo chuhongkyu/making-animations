@@ -2,7 +2,7 @@ import { analyze, guess } from 'web-audio-beat-detector';
 import { setBPM, setDuration, setIsPlaying } from '../utils/store';
 
 async function uploadSound(file) {
-    if (file) console.log("File type:", file.type);
+    // if (file) console.log("File type:", file.type);
     if (file && (file.type === 'audio/mp3' || file.type === 'audio/mpeg' || file.type === 'audio/wav')) {
         const audioPlayer = document.getElementById('audio-player');
         const url = URL.createObjectURL(file);
