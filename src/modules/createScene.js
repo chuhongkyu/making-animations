@@ -2,12 +2,12 @@ import * as BABYLON from '@babylonjs/core';
 
 function createScene(engine, canvas) {
     const scene = new BABYLON.Scene(engine);
-    const target = new BABYLON.Vector3(0,2,0)
+    const target = new BABYLON.Vector3(0.5,1,0)
     const camera = new BABYLON.ArcRotateCamera(
         'MainCamera', 
         1,
-        1,
-        13, 
+        1.17,
+        4, 
         target,
         scene
     );
@@ -16,7 +16,8 @@ function createScene(engine, canvas) {
 
     // scene.createDefaultCameraOrLight(true, true, true);
     scene.createDefaultEnvironment();
-  
+    // const box = BABYLON.MeshBuilder.CreateBox("box", {height: 5, width: 1, depth: 1});
+    // box.position = new BABYLON.Vector3(0,5,0)
     // var helperCamera = scene.cameras[scene.cameras.length - 1];
     // var helperLight = scene.lights[scene.lights.length - 1];
   

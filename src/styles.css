@@ -33,3 +33,8 @@ body{
     border: 0;
     background: transparent;
 }
+
+.skeletons-wrapper{
+    border-radius: 25px;
+    background: #fff;
+}
