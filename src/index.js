@@ -5,6 +5,7 @@ import "@babylonjs/inspector";
 import './styles.css';
 import createScene from './modules/createScene';
 import { setupModelUpload, setupSoundUpload } from './modules/setupHandler';
+import { handleUI } from './modules/handleUI';
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -13,10 +14,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const scene = createScene(engine, canvas);
 
-  scene.debugLayer.show({
-    embedMode:true
-  });
+  // scene.debugLayer.show({
+  //   embedMode:true
+  // });
 
+  handleUI();
   setupModelUpload(scene);
   setupSoundUpload(scene);
 

@@ -19,14 +19,13 @@ function clearPreviousModel() {
 }
 
 function createModel(scene) {
-    const { url, fileName } = getModel()
-    const skeletonsViewr = document.querySelector(".skeletons-wrapper");
-    skeletonsViewr.innerHTML = '';
+    const { url, fileName } = getModel();
+    if(!url || !fileName) return;
 
     clearPreviousModel();
     
     BABYLON.SceneLoader.ImportMesh('', url, fileName, scene, (newMeshes, particleSystems, skeletons) => {
-        console.log(newMeshes, skeletons);
+        // console.log(newMeshes, skeletons);
 
         currentMeshes = newMeshes;
         currentSkeletons = skeletons;
@@ -35,11 +34,18 @@ function createModel(scene) {
         let characterBones = currentSkeletons[0];
 
         characterMesh.position = new BABYLON.Vector3(0, 0, 0);
+        
+        const shadowGenerator = new BABYLON.ShadowGenerator(1024, scene.lights[1]);
+        shadowGenerator.useBlurExponentialShadowMap = true;
+        shadowGenerator.blurKernel = 32;
 
-        const viewer = new SkeletonViewer(characterBones, characterMesh, scene, false, 3, {
-            displayMode: SkeletonViewer.DISPLAY_SPHERE_AND_SPURS
-        });
-        viewer.isEnabled = true;
+        characterMesh.receiveShadows = true;
+        shadowGenerator.addShadowCaster(characterMesh);
+
+        // const viewer = new SkeletonViewer(characterBones, characterMesh, scene, false, 3, {
+        //     displayMode: SkeletonViewer.DISPLAY_SPHERE_AND_SPURS
+        // });
+        // viewer.isEnabled = true;
 
         const baseRotations = characterBones.bones.map(bone => {
             return {

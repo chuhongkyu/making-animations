@@ -21,15 +21,19 @@ export function getRandomRotations(bpm, duration, baseRotations) {
             } else if(baseRotation.name === 'mixamorig:LeftUpLeg' || baseRotation.name === 'mixamorig:RightUpLeg'){
                 randomRotationX = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationX;
                 randomRotationY = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.3) * Math.PI / 5 + baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:LeftHand' || baseRotation.name === 'mixamorig:RightHand'){
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 2.5 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 2.5 + baseRotation.rotationY;
                 randomRotationZ = (Math.random() - 0.5) * Math.PI / 2.5 + baseRotation.rotationZ;
             } else if(baseRotation.name === 'mixamorig:Hips'){
                 randomRotationX = baseRotation.rotationX;
                 randomRotationY = baseRotation.rotationY;
                 randomRotationZ = baseRotation.rotationZ;
             } else {
-                randomRotationX = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationX;
-                randomRotationY = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationY;
-                randomRotationZ = (Math.random() - 0.5) * Math.PI / 3 + baseRotation.rotationZ;
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 5 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 5 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.5) * Math.PI / 5 + baseRotation.rotationZ;
             }
 
             return {

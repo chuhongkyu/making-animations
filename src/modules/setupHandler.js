@@ -27,10 +27,13 @@ function setupSoundUpload(scene) {
 
 function updateAudioControls() {
     const audioControls = document.querySelector('.audio-controls');
+    const bpmText = audioControls.querySelector('.bpm-text');
+    bpmText.innerHTML = '';
     const { fileName } = getModel();
     const bpm = getBPM();
 
     if (fileName && bpm > 0) {
+        bpmText.innerHTML = bpm + '';
         audioControls.classList.add('active');
     } else {
         audioControls.classList.remove('active');

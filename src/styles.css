@@ -6,6 +6,10 @@ body{
     padding: 0;
 }
 
+p,b{
+    margin: 0;
+}
+
 #view-canvas{
     width: 100%;
     height: 100%;
@@ -16,22 +20,88 @@ body{
     z-index: 9999;
     top: 20px;
     left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .upload-wrapper{
-    width: 10rem;
-    height: 10rem;
-    border-radius: 25px;
-    background: #fff;
+    position: relative;
+    box-sizing: border-box;
+    width: 6.5rem;
+    height: 6.5rem;
+    border-radius: 12px;
+    background: #cccccc;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+    border: 2px dashed #9c9c9c;
+}
+
+.model-file-label,.sound-file-label{
+    width: 100%;
+    height: calc(100% - 20px);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.upload-wrapper:hover{
+    background: #e2e2e2;
+    transition: 300ms ease-in-out;
+}
+
+.upload-wrapper.active p,
+.upload-wrapper.active p{
+    display: none;
+}
+
+.upload-wrapper p{
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+}
+
+.upload-wrapper img{
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
+}
+
+.upload-wrapper button{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 16px;
+    color: white;
+    background: #333;
+    opacity: 0.8;
+    border: none;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    cursor: pointer;
+}
+
+.upload-wrapper button:hover{
+    background: #333;
+    opacity: 1;
+    transition: 300ms ease-in-out;
+}
+
+.upload-wrapper.active button{
+    display: block;
+    cursor: pointer;
 }
 
 .upload-wrapper input[type="file"]{
-    width: 100%;
-    border: 0;
-    background: transparent;
+    display: none;
 }
 
 .skeletons-wrapper{
@@ -41,6 +111,15 @@ body{
 
 .audio-controls{
     display: none;
+    padding: 12px 20px;
+    background: #cccccc;
+    border-radius: 25px;
+}
+
+.audio-label{
+    display: flex;
+    padding: 12px 20px;
+    border-radius: 25px;
 }
 
 .audio-controls.active{
