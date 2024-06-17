@@ -12,17 +12,26 @@ p,b{
 
 #view-canvas{
     width: 100%;
-    height: 100%;
+    height: 100dvh;
 }
 
 .tools{
+    top: 0;
+    left: 0;
     position: absolute;
     z-index: 9999;
     top: 20px;
     left: 20px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    transition: 300ms ease-in-out;
+}
+
+.tools.active{
+    transform: translateX(-100%);
+    transition: 300ms ease-in-out;
 }
 
 .upload-wrapper{
@@ -110,10 +119,18 @@ p,b{
 }
 
 .audio-controls{
-    display: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    bottom: 0;
     padding: 12px 20px;
     background: #cccccc;
-    border-radius: 25px;
+    pointer-events: none;
+    opacity: 0.5;
 }
 
 .audio-label{
@@ -123,5 +140,7 @@ p,b{
 }
 
 .audio-controls.active{
-    display: block;
+    opacity: 1;
+    pointer-events: initial;
+    transition: 300ms ease-in-out;
 }

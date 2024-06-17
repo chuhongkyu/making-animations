@@ -9,7 +9,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use('/converted', express.static(path.join(__dirname, 'server/upload/converted')));
+app.use('/converted', express.static(path.join(__dirname, 'upload/converted')));
 
 const cleanFiles = (directory) => {
   fs.readdir(directory, (err, files) => {
@@ -30,10 +30,9 @@ const cleanFiles = (directory) => {
   });
 };
 
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'server/upload/');
+    const uploadPath = path.join(__dirname, 'upload/');
     fs.mkdirSync(uploadPath, { recursive: true });
     cleanFiles(uploadPath);
     cb(null, uploadPath);
@@ -48,28 +47,23 @@ const upload = multer({ storage });
 app.post('/upload', upload.single('file'), (req, res) => {
   const file = req.file;
   const srcPath = file.path;
-  const destDir = path.join(__dirname, 'server/upload/converted/');
+  const destDir = path.join(__dirname, 'upload/converted/');
   const destPath = path.join(destDir, path.basename(srcPath, path.extname(srcPath)) + '.glb');
 
   fs.mkdirSync(destDir, { recursive: true });
   cleanFiles(destDir);
-  // console.log(`File uploaded to ${srcPath}`);
-  // console.log(`Converting file to ${destPath}`);
 
   convert(srcPath, destPath, ['--khr-materials-unlit']).then(
     () => {
-      // console.log(`File converted successfully to ${destPath}`);
       const publicPath = 'http://localhost:3000/converted/';
       const fileName = path.basename(destPath);
-      res.json(
-        { 
-          url: publicPath,
-          fileName : fileName,
-        }
-      );
+      res.json({
+        url: publicPath,
+        fileName: fileName,
+      });
     },
     error => {
-      console.error("error:", error);
+      console.error("Error:", error);
       res.status(500).send("Error converting file.");
     }
   );

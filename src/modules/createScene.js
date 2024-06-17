@@ -34,7 +34,7 @@ function createScene(engine, canvas) {
     // var helperLight = scene.lights[scene.lights.length - 1];
   
     const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
-    const light2 = new BABYLON.PointLight('light2', new BABYLON.Vector3(0, 1, -1), scene);
+    const light2 = new BABYLON.DirectionalLight('light2', new BABYLON.Vector3(0, -1, -1), scene);
     light2.position = new BABYLON.Vector3(5, 10, 5);
 
     return scene;

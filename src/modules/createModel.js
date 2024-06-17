@@ -86,7 +86,7 @@ function createModel(scene) {
 
             animation.setKeys(keyFrames);
 
-            console.log(`Generated keyframes for bone ${bone.name}:`, keyFrames);
+            // console.log(`Generated keyframes for bone ${bone.name}:`, keyFrames);
 
             bone.animations = [];
             bone.animations.push(animation);
@@ -97,17 +97,22 @@ function createModel(scene) {
             bone.animatable = animatable;
         });
 
+        // const animationData = JSON.parse(jsonString);
+        // applyAnimationFromJSON(scene, characterBones, animationData);
+
         scene.onBeforeRenderObservable.add(() => {
             if (getIsPlaying()) {
                 characterBones.bones.forEach(bone => {
                     const animatable = bone.animatable;
                     if (animatable) animatable.restart();
                 });
+                document.querySelector('.tools').classList.add('active');
             } else {
                 characterBones.bones.forEach(bone => {
                     const animatable = bone.animatable;
                     if (animatable) animatable.pause();
                 });
+                document.querySelector('.tools').classList.remove('active');
             }
         });
     });
