@@ -32,6 +32,7 @@ async function uploadSound(file) {
                 setIsPlaying(false);
             };
         } catch (error) {
+            alert("The beat is too short.")
             console.error("Error detecting BPM:", error);
         }
     } else {

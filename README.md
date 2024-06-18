@@ -25,3 +25,9 @@ npm start
 
 # GIF 내보내기
 - 커뮤티니 확인: https://forum.babylonjs.com/t/import-gifexporter-with-webpack/5348/4
+
+- gif.worker.js 문제.
+
+- canvas capture 
+    Why import { CanvasCapture } from 'canvas-capture' cause cpu usage 99%?
+    문제: https://github.com/amandaghassaei/canvas-capture/issues/14

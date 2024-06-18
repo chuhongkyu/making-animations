@@ -191,6 +191,22 @@ body{
     color: black;
 }
 
+.pose-wrapper{
+    display: none;
+}
+
+.pose-wrapper button{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: none;
+    background: #000;
+}
+
+.pose-wrapper.active{
+    display: block;
+}
+
 .record-export a{
     font-size: 16px;
     font-weight: 600;
