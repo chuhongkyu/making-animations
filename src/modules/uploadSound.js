@@ -1,5 +1,5 @@
 import { analyze, guess } from 'web-audio-beat-detector';
-import { setBPM, setDuration, setIsPlaying } from '../utils/store';
+import { setBPM, setDuration, setIsPlaying, setSoundName } from '../utils/store';
 
 async function uploadSound(file) {
     // if (file) console.log("File type:", file.type);
@@ -8,7 +8,7 @@ async function uploadSound(file) {
         const url = URL.createObjectURL(file);
         audioPlayer.src = url;
         audioPlayer.load();
-
+        setSoundName(file.name);
         try {
             const arrayBuffer = await file.arrayBuffer();
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();

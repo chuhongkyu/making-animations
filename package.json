@@ -32,6 +32,7 @@
     "@babylonjs/loaders": "^7.11.0",
     "@babylonjs/materials": "^7.11.0",
     "@babylonjs/serializers": "^7.11.1",
+    "canvas-capture": "^2.1.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "fbx2gltf": "^0.9.7-p1",

@@ -6,8 +6,10 @@ body{
     padding: 0;
 }
 
-p,b{
+*,p,b{
+    box-sizing: border-box;
     margin: 0;
+    padding: 0;
 }
 
 #view-canvas{
@@ -20,23 +22,22 @@ p,b{
     left: 0;
     position: absolute;
     z-index: 9999;
-    top: 20px;
-    left: 20px;
-    height: 100%;
+    padding: 20px 0 0px 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     transition: 300ms ease-in-out;
+    opacity: 1;
 }
 
 .tools.active{
     transform: translateX(-100%);
+    opacity: 0.8;
     transition: 300ms ease-in-out;
 }
 
 .upload-wrapper{
     position: relative;
-    box-sizing: border-box;
     width: 6.5rem;
     height: 6.5rem;
     border-radius: 12px;
@@ -61,6 +62,10 @@ p,b{
 .upload-wrapper:hover{
     background: #e2e2e2;
     transition: 300ms ease-in-out;
+}
+
+.upload-wrapper.active{
+    border: 1px solid #333;
 }
 
 .upload-wrapper.active p,
@@ -96,6 +101,7 @@ p,b{
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
     cursor: pointer;
+    transform: translateY(5px);
 }
 
 .upload-wrapper button:hover{
@@ -107,6 +113,25 @@ p,b{
 .upload-wrapper.active button{
     display: block;
     cursor: pointer;
+    transition: 300ms ease-in-out;
+    transform: initial;
+}
+
+.upload-wrapper.clear{
+    border: none;
+    pointer-events: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 300ms ease-in-out;
+}
+
+.upload-wrapper.clear .model-file-label,
+.upload-wrapper.clear .sound-file-label{
+    justify-content: center;
+    transition: 300ms ease-in-out;
+}
+
+.upload-wrapper.clear button{
+    display: none;
 }
 
 .upload-wrapper input[type="file"]{
@@ -120,9 +145,9 @@ p,b{
 
 .audio-controls{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
-    box-sizing: border-box;
     position: fixed;
     z-index: 9999;
     left: 0;
@@ -131,16 +156,83 @@ p,b{
     background: #cccccc;
     pointer-events: none;
     opacity: 0.5;
+    transform: translateY(100%);
 }
 
 .audio-label{
     display: flex;
-    padding: 12px 20px;
+    flex-direction: column;
     border-radius: 25px;
+    line-height: 130%;
 }
 
 .audio-controls.active{
+    transform: initial;
     opacity: 1;
     pointer-events: initial;
     transition: 300ms ease-in-out;
+}
+
+.audio-player{
+    background: transparent;
+}
+
+.record-wrapper{
+    display: flex;
+    gap: 5px;
+}
+
+.record-icon, .record-export{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: black;
+}
+
+.record-export a{
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+}
+
+#record-btn{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;  
+    border: none;
+    background-color: rgba(255, 2, 2, 0.96);
+    cursor: pointer;
+}
+
+.stop{
+    background-color: #333;
+    transition: 300ms ease-in-out;
+}
+
+.on-air{
+    background-color: rgb(255, 2, 2);
+    animation: opacityAnimation 1s ease-in-out infinite;
+}
+
+@keyframes opacityAnimation {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0.6;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .audio-controls{
+        flex-direction: column;
+    }
+
+
+    .record-wrapper{
+        display: none;
+    }
 }

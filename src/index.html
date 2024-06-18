@@ -29,11 +29,21 @@
     
     <div class="audio-controls">
         <span class="audio-label">
-            <b>BPM:</b><p class="bpm-text"></p>
+            <p class="music-name"></p><p class="bpm-text"></p>
         </span>
         <audio id="audio-player" controls>
             Your browser does not support the audio element.
         </audio>
+        <div class="record-wrapper">
+            <span class="record-icon">
+                <small>GIF 녹화</small>
+                <button id="record-btn"><p style="display: none;">녹화</p></button>
+            </span>
+            <!-- <span class="record-export">
+                <small>GIF</small>
+                <a>Download</a>
+            </span> -->
+        </div>
     </div>
     <canvas id="view-canvas"></canvas>
 </body>

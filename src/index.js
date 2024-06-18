@@ -6,7 +6,7 @@ import './styles.css';
 import createScene from './modules/createScene';
 import { setupModelUpload, setupSoundUpload } from './modules/setupHandler';
 import { handleUI } from './modules/handleUI';
-
+import { getCanvasCapture } from './utils/store';
 
 window.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('view-canvas');
@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const scene = createScene(engine, canvas);
 
-  // scene.debugLayer.show({
-  //   embedMode:true
-  // });
+  scene.debugLayer.show({
+    embedMode:true
+  });
 
   handleUI();
   setupModelUpload(scene);
@@ -26,8 +26,18 @@ window.addEventListener('DOMContentLoaded', () => {
     scene.render();
   });
 
+  //canvas 캡쳐 실행시 frame Drop 해결못함.
+  scene.registerBeforeRender(() => {
+    const canvasCapture = getCanvasCapture();
+    if (canvasCapture) {
+      canvasCapture.checkHotkeys();
+      if (canvasCapture.isRecording()) {
+        canvasCapture.recordFrame();
+      }
+    }
+  });
+
   window.addEventListener('resize', () => {
     engine.resize();
   });
 });
-

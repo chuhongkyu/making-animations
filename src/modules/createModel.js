@@ -20,10 +20,10 @@ function clearPreviousModel() {
 
 function createModel(scene) {
     const { url, fileName } = getModel();
-    if(!url || !fileName) return;
+    if (!url || !fileName) return;
 
     clearPreviousModel();
-    
+
     BABYLON.SceneLoader.ImportMesh('', url, fileName, scene, (newMeshes, particleSystems, skeletons) => {
         // console.log(newMeshes, skeletons);
 
@@ -34,7 +34,7 @@ function createModel(scene) {
         let characterBones = currentSkeletons[0];
 
         characterMesh.position = new BABYLON.Vector3(0, 0, 0);
-        
+
         const shadowGenerator = new BABYLON.ShadowGenerator(1024, scene.lights[1]);
         shadowGenerator.useBlurExponentialShadowMap = true;
         shadowGenerator.blurKernel = 32;
@@ -61,15 +61,17 @@ function createModel(scene) {
             bone.linkTransformNode(null);
         });
 
-
         let bpm = getBPM();
-        if(bpm === 0 || !bpm) return
+        if (bpm === 0 || !bpm) return;
         let duration = getDuration();
 
         const rotations = getRandomRotations(bpm, duration, baseRotations);
 
-        const frameRate = Math.floor(rotations.length / duration);
-        const beatInterval = (60 / bpm) * frameRate;
+
+        // const frameRate = Math.floor(rotations.length / duration);
+
+        const frameRate = bpm;
+        const totalFrames = duration * frameRate;
 
         characterBones.bones.forEach((bone, boneIndex) => {
             const animation = new BABYLON.Animation("boneAnimation", "rotationQuaternion", frameRate, BABYLON.Animation.ANIMATIONTYPE_QUATERNION, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
@@ -79,26 +81,32 @@ function createModel(scene) {
                 const rotation = rotations[i][boneIndex];
                 const quaternion = BABYLON.Quaternion.FromEulerAngles(rotation.rotationX, rotation.rotationY, rotation.rotationZ);
                 keyFrames.push({
-                    frame: i * beatInterval,
+                    frame: (i * totalFrames) / rotations.length,
                     value: quaternion
                 });
             }
 
             animation.setKeys(keyFrames);
 
-            // console.log(`Generated keyframes for bone ${bone.name}:`, keyFrames);
-
             bone.animations = [];
             bone.animations.push(animation);
 
-            const animatable = scene.beginAnimation(bone, 0, keyFrames[keyFrames.length - 1].frame, true);
+            const animatable = scene.beginAnimation(bone, 0, totalFrames, true);
             animatable.pause();
 
             bone.animatable = animatable;
         });
 
-        // const animationData = JSON.parse(jsonString);
-        // applyAnimationFromJSON(scene, characterBones, animationData);
+        const audioPlayer = document.getElementById('audio-player');
+        audioPlayer.ontimeupdate = () => {
+            const currentTime = audioPlayer.currentTime;
+            characterBones.bones.forEach((bone) => {
+                const animatable = bone.animatable;
+                if (animatable) {
+                    animatable.goToFrame(currentTime * frameRate);
+                }
+            });
+        };
 
         scene.onBeforeRenderObservable.add(() => {
             if (getIsPlaying()) {

@@ -11,20 +11,44 @@ export function getRandomRotations(bpm, duration, baseRotations) {
     const rotations = [];
 
     for (let i = 0; i < totalBeats; i++) {
+        let leftLegRotationX = 0.05;
+        let rightLegRotationX = 0.05;
+
+        //20프로
+        if (Math.random() < 0.2) {
+            if (Math.random() < 0.5) {
+                leftLegRotationX = -Math.random() * Math.PI / 2;
+                rightLegRotationX = 0.05;
+            } else {
+                rightLegRotationX = -Math.random() * Math.PI / 2;
+                leftLegRotationX = 0.05;
+            }
+        }
+
         const frameRotations = baseRotations.map(baseRotation => {
             let randomRotationX, randomRotationY, randomRotationZ;
-            
+
             if (baseRotation.name === 'mixamorig:Neck') {
                 randomRotationX = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationX;
                 randomRotationY = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationY;
                 randomRotationZ = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:LeftShoulder' || baseRotation.name === 'mixamorig:RightShoulder'){
+                randomRotationX = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationX;
+                randomRotationY = (Math.random() - 0.5) * Math.PI / 2 + baseRotation.rotationY;
+                randomRotationZ = (Math.random() - 0.5) * Math.PI / 4 + baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:RightLeg'){
+                randomRotationX = rightLegRotationX;
+                randomRotationY = Math.floor(Math.random() * 5) * 0.005  + baseRotation.rotationY;
+                randomRotationZ = baseRotation.rotationZ;
+            } else if(baseRotation.name === 'mixamorig:LeftLeg'){
+                randomRotationX = leftLegRotationX;
+                randomRotationY = Math.floor(Math.random() * 5) * 0.005  + baseRotation.rotationY;
+                randomRotationZ = baseRotation.rotationZ;
             } else if(
                 baseRotation.name === 'mixamorig:LeftUpLeg' ||
-                baseRotation.name === 'mixamorig:LeftLeg' ||
                 baseRotation.name === 'mixamorig:LeftFoot' ||
                 baseRotation.name === 'mixamorig:LeftToeBase'||
                 baseRotation.name === 'mixamorig:RightUpLeg'||
-                baseRotation.name === 'mixamorig:RightLeg'||
                 baseRotation.name === 'mixamorig:RightFoot'||
                 baseRotation.name === 'mixamorig:RightToeBase'
             ){
@@ -46,13 +70,16 @@ export function getRandomRotations(bpm, duration, baseRotations) {
             }
 
             return {
+                name: baseRotation.name,
                 rotationX: randomRotationX,
                 rotationY: randomRotationY,
                 rotationZ: randomRotationZ
             };
         });
+
         rotations.push(frameRotations);
     }
 
     return rotations;
 }
+

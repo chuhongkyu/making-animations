@@ -15,7 +15,7 @@ function createScene(engine, canvas) {
     camera.attachControl(canvas, true);
 
     camera.lowerRadiusLimit = 2;
-    camera.upperRadiusLimit = 10;
+    camera.upperRadiusLimit = 12;
     camera.lowerBetaLimit = 0.1;
     camera.upperBetaLimit = Math.PI / 2 - 0.1;
     
@@ -27,11 +27,6 @@ function createScene(engine, canvas) {
     ground.receiveShadows = true;
 
     scene.clearColor = new BABYLON.Color3(1, 1, 1);
-
-    // const box = BABYLON.MeshBuilder.CreateBox("box", {height: 5, width: 1, depth: 1});
-    // box.position = new BABYLON.Vector3(0,5,0)
-    // var helperCamera = scene.cameras[scene.cameras.length - 1];
-    // var helperLight = scene.lights[scene.lights.length - 1];
   
     const light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
     const light2 = new BABYLON.DirectionalLight('light2', new BABYLON.Vector3(0, -1, -1), scene);
