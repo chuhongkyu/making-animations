@@ -1,13 +1,13 @@
 import * as BABYLON from '@babylonjs/core';
 
-async function loadSamplePose() {
-    const response = await fetch('assets/sample/sample01.json');
+async function loadSamplePose(number) {
+    const response = await fetch(`assets/sample/sample0${number}.json`);
     const data = await response.json();
     return data;
 }
 
-async function changePose(characterBones, scene) {
-    const samplePose = await loadSamplePose();
+async function changePose(characterBones, number) {
+    const samplePose = await loadSamplePose(number);
 
     samplePose.forEach(pose => {
         const bone = characterBones.bones.find(b => b.name === pose.name);

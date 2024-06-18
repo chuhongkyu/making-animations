@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const scene = createScene(engine, canvas);
 
-  scene.debugLayer.show({
-    embedMode:true
-  });
+  // scene.debugLayer.show({
+  //   embedMode:true
+  // });
 
   handleUI();
   setupModelUpload(scene);

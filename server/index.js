@@ -19,22 +19,26 @@ const cleanFiles = (directory) => {
     }
 
     for (const file of files) {
-      fs.unlink(path.join(directory, file), err => {
-        if (err) {
-          console.error(`Failed: ${err}`);
-        } else {
-          console.log(`Deleted: ${file}`);
-        }
-      });
+      const filePath = path.join(directory, file);
+      if (file !== '.gitkeep') {
+        fs.unlink(filePath, err => {
+          if (err) {
+            console.error(`Failed: ${err}`);
+          } else {
+            console.log(`Deleted: ${file}`);
+          }
+        });
+      }
     }
   });
 };
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'upload/');
     fs.mkdirSync(uploadPath, { recursive: true });
-    cleanFiles(uploadPath);
+    // cleanFiles(uploadPath);
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -51,7 +55,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   const destPath = path.join(destDir, path.basename(srcPath, path.extname(srcPath)) + '.glb');
 
   fs.mkdirSync(destDir, { recursive: true });
-  cleanFiles(destDir);
+  // cleanFiles(destDir);
 
   convert(srcPath, destPath, ['--khr-materials-unlit']).then(
     () => {

@@ -4,31 +4,40 @@ import uploadModel from "./uploadModel";
 import uploadSound from "./uploadSound";
 
 function setupModelUpload(scene) {
-    const fileModelWrapper = document.querySelector('.model-file-wrapper');
-    document.getElementById('upload-model-button').addEventListener('click', async () => {
-        const fileInput = document.getElementById('model-file-input');
+    const fileInput = document.getElementById('model-file-input');
+    const description = document.querySelector('.model-file-wrapper .description');
+    fileInput.addEventListener('change', async () => {
         const file = fileInput.files[0];
         if (file) {
+            let fileName = file.name;
+            if (fileName.length > 5) {
+                fileName = fileName.substring(0, 5) + '...';
+            }
+            description.innerHTML = fileName + '';
             await uploadModel(file, scene);
-            updateAudioControls()
-            fileModelWrapper.classList.add('clear')
+            updateAudioControls();
+            fileInput.value = '';
         }
     });
 }
 
 function setupSoundUpload(scene) {
-    const fileSoundWrapper = document.querySelector('.sound-file-wrapper');
-   
-    document.getElementById('upload-sound-button').addEventListener('click', async () => {
-        const fileInput = document.getElementById('sound-file-input');
+    const fileInput = document.getElementById('sound-file-input');
+    const description = document.querySelector('.sound-file-wrapper .description');
+    fileInput.addEventListener('change', async () => {
         const file = fileInput.files[0];
         if (file) {
+            let fileName = file.name;
+            if (fileName.length > 5) {
+                fileName = fileName.substring(0, 5) + '...';
+            }
+            description.innerHTML = fileName + '';
             await uploadSound(file);
-            createModel(scene)
-            updateAudioControls()
-            fileSoundWrapper.classList.add('clear')
+            createModel(scene);
+            updateAudioControls();
+            fileInput.value = '';
         }
-   });
+    });
 }
 
 function updateAudioControls() {

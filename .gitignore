@@ -2,3 +2,10 @@
 node_modules
 .DS_Store
 dist
+
+
+server/upload/*.glb
+server/upload/*.fbx
+
+server/upload/converted/*.glb
+server/upload/converted/*.fbx

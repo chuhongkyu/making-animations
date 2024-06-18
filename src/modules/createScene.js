@@ -2,7 +2,7 @@ import * as BABYLON from '@babylonjs/core';
 
 function createScene(engine, canvas) {
     const scene = new BABYLON.Scene(engine);
-    const target = new BABYLON.Vector3(0.5,1,0)
+    const target = new BABYLON.Vector3(0,1,0)
     const camera = new BABYLON.ArcRotateCamera(
         'MainCamera', 
         1,

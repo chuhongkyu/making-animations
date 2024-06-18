@@ -49,6 +49,10 @@ body{
     border: 2px dashed #9c9c9c;
 }
 
+.upload-wrapper small{
+    display: none;
+}
+
 .model-file-label,.sound-file-label{
     width: 100%;
     height: calc(100% - 20px);
@@ -66,6 +70,14 @@ body{
 
 .upload-wrapper.active{
     border: 1px solid #333;
+    pointer-events: none;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    transition: 300ms ease-in-out;
+}
+
+
+.upload-wrapper.active small{
+    display: block;
 }
 
 .upload-wrapper.active p,
@@ -110,28 +122,10 @@ body{
     transition: 300ms ease-in-out;
 }
 
-.upload-wrapper.active button{
-    display: block;
-    cursor: pointer;
-    transition: 300ms ease-in-out;
-    transform: initial;
-}
-
-.upload-wrapper.clear{
-    border: none;
-    pointer-events: none;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    transition: 300ms ease-in-out;
-}
-
-.upload-wrapper.clear .model-file-label,
-.upload-wrapper.clear .sound-file-label{
+.upload-wrapper.active .model-file-label,
+.upload-wrapper.active .sound-file-label{
     justify-content: center;
     transition: 300ms ease-in-out;
-}
-
-.upload-wrapper.clear button{
-    display: none;
 }
 
 .upload-wrapper input[type="file"]{
@@ -192,7 +186,22 @@ body{
 }
 
 .pose-wrapper{
-    display: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0.2;
+}
+
+.btn-group{
+    margin-top: 5px;
+    display: flex;
+    gap: 5px;
+}
+
+.pose-wrapper small{
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .pose-wrapper button{
@@ -200,11 +209,24 @@ body{
     height: 2.5rem;
     border-radius: 50%;
     border: none;
-    background: #000;
+    background: #cbcbcb;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pose-wrapper button:hover{
+    background: #333;
+    transition: 300ms ease-in-out;
+}
+
+.pose-wrapper button.active{
+    background: #333;
+    transition: 300ms ease-in-out;
 }
 
 .pose-wrapper.active{
-    display: block;
+    opacity: 1;
+    pointer-events: initial;
 }
 
 .record-export a{

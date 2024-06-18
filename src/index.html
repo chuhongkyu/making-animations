@@ -12,8 +12,9 @@
                 <img src="assets/3dmodel-icon.png" alt="model-icon"/>
                 <p>.fbx 모델</p>
                 <p>업로드</p>
+                <small class="description"></small>
             </label>
-            <button id="upload-model-button">선택 완료</button>
+            <!-- <button id="upload-model-button">선택 완료</button> -->
             <input type="file" id="model-file-input" accept=".fbx"/>
         </div>
         <div class="upload-wrapper sound-file-wrapper">
@@ -21,14 +22,22 @@
                 <img src="assets/SoundFile-icon.png" alt="sound-icon"/>
                 <p>Mp3 파일</p>
                 <p>업로드</p>
+                <small class="description"></small>
             </label>
-            <button id="upload-sound-button">선택 완료</button>
+            <!-- <button id="upload-sound-button">선택 완료</button> -->
             <input type="file" id="sound-file-input" accept="audio/mp3, audio/wav, audio/mpeg"/>
         </div>
         <div class="pose-wrapper">
-            <button id="idle">
-                <!-- 다음 -->
-            </button>
+            <small>Sample Pose</small>
+            <div class="btn-group">
+                <button id="idle">
+                    1
+                </button>
+                <button id="dance">
+                    2
+                </button>
+            </div>
+            
         </div>
     </div>
     
