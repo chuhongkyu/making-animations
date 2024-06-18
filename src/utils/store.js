@@ -6,7 +6,6 @@ let model = {
     url: null,
     fileName: null,
 };
-let canvasCapture = null;
 let isRecording = false;
 
 export function setBPM(newBPM) {
@@ -47,14 +46,6 @@ export function setModel(newModel) {
 
 export function getModel() {
     return model;
-}
-
-export function setCanvasCapture(capture) {
-    canvasCapture = capture;
-}
-
-export function getCanvasCapture() {
-    return canvasCapture;
 }
 
 export function setIsRecording(recording) {

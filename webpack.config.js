@@ -29,9 +29,13 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'src/assets', to: 'assets' },
+        { from: 'src/capture', to: 'capture' },
       ],
     }),
   ],
+  externals: {
+    CCapture: 'CCapture',
+  },
   devServer: {
     static: {
       directory: path.resolve(__dirname, 'dist'),

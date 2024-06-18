@@ -6,7 +6,8 @@ import './styles.css';
 import createScene from './modules/createScene';
 import { setupModelUpload, setupSoundUpload } from './modules/setupHandler';
 import { handleUI } from './modules/handleUI';
-import { getCanvasCapture } from './utils/store';
+import { getIsRecording } from './utils/store';
+import { captureCanvas, initCapture, startCapture, stopCapture } from './modules/setupCapture';
 
 window.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('view-canvas');
@@ -22,19 +23,13 @@ window.addEventListener('DOMContentLoaded', () => {
   setupModelUpload(scene);
   setupSoundUpload(scene);
 
+  initCapture(canvas)
+
   engine.runRenderLoop(() => {
     scene.render();
-  });
-
-  //canvas 캡쳐 실행시 frame Drop 해결못함.
-  scene.registerBeforeRender(() => {
-    const canvasCapture = getCanvasCapture();
-    if (canvasCapture) {
-      canvasCapture.checkHotkeys();
-      if (canvasCapture.isRecording()) {
-        canvasCapture.recordFrame();
-      }
-    }
+    // if (getIsRecording() === true) {
+      captureCanvas(canvas)
+    // }
   });
 
   window.addEventListener('resize', () => {
