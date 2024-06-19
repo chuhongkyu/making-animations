@@ -3,7 +3,6 @@ import * as BABYLON from '@babylonjs/core';
 import { getBPM, getDuration, getIsPlaying, getModel } from '../utils/store';
 import { getRandomRotations } from './makePose';
 import { changePose, logBonePoses } from './changePose';
-import colorLight from './visualEffect';
 import visualEffect from './visualEffect';
 
 let currentMeshes = [];
@@ -53,7 +52,7 @@ async function changePoseAndSetupAnimation(characterBones, poseNumber, scene) {
     setupAnimation(scene, characterBones, baseRotations);
 }
 
-function setupAnimation(scene, characterBones, baseRotations) {
+function setupAnimation(scene, characterBones, baseRotations, shadowGenerator) {
     let bpm = getBPM();
     if (bpm === 0 || !bpm) return;
     let duration = getDuration();
@@ -81,37 +80,47 @@ function setupAnimation(scene, characterBones, baseRotations) {
         bone.animations = [];
         bone.animations.push(animation);
 
-        const animatable = scene.beginAnimation(bone, 0, totalFrames, true);
-        animatable.pause();
+        const characterAnimatable = scene.beginAnimation(bone, 0, totalFrames, true);
+        characterAnimatable.pause();
 
-        bone.animatable = animatable;
+        bone.animatable = characterAnimatable;
     });
+
+    const { boxAnimatable1, boxAnimatable2 } = visualEffect(frameRate, totalFrames, scene, shadowGenerator)
 
     const audioPlayer = document.getElementById('audio-player');
     audioPlayer.ontimeupdate = () => {
         const currentTime = audioPlayer.currentTime;
         characterBones.bones.forEach((bone) => {
-            const animatable = bone.animatable;
-            if (animatable) {
-                animatable.goToFrame(currentTime * frameRate);
+            const characterAnimatable = bone.animatable;
+            if (characterAnimatable) {
+                characterAnimatable.goToFrame(currentTime * frameRate);
             }
         });
+        if (boxAnimatable1) {
+            boxAnimatable1.goToFrame(currentTime * frameRate);
+        }
+        if (boxAnimatable2) {
+            boxAnimatable2.goToFrame(currentTime * frameRate);
+        }
     };
-
-    // visualEffect(bpm, totalFrames, scene, getIsPlaying())
 
     scene.onBeforeRenderObservable.add(() => {
         if (getIsPlaying()) {
             characterBones.bones.forEach(bone => {
-                const animatable = bone.animatable;
-                if (animatable) animatable.restart();
+                const characterAnimatable = bone.animatable;
+                if (characterAnimatable) characterAnimatable.restart();
             });
+            if (boxAnimatable1) boxAnimatable1.restart();
+            if (boxAnimatable2) boxAnimatable2.restart();
             document.querySelector('.tools').classList.add('active');
         } else {
             characterBones.bones.forEach(bone => {
-                const animatable = bone.animatable;
-                if (animatable) animatable.pause();
+                const characterAnimatable = bone.animatable;
+                if (characterAnimatable) characterAnimatable.pause();
             });
+            if (boxAnimatable1) boxAnimatable1.pause();
+            if (boxAnimatable2) boxAnimatable2.pause();
             document.querySelector('.tools').classList.remove('active');
         }
     });
@@ -164,7 +173,7 @@ function createModel(scene) {
         // logBonePoses(characterBones)
 
         setupSampleButtons(scene, characterBones)
-        setupAnimation(scene, characterBones, baseRotations);
+        setupAnimation(scene, characterBones, baseRotations, shadowGenerator);
     });
 }
 
