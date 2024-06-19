@@ -26,16 +26,14 @@ window.addEventListener('DOMContentLoaded', () => {
     scene.render();
   });
 
-  //canvas 캡쳐 실행시 frame Drop 해결못함.
-  scene.registerBeforeRender(() => {
+  function loop() {
+    requestAnimationFrame(loop);
     const canvasCapture = getCanvasCapture();
-    if (canvasCapture) {
-      canvasCapture.checkHotkeys();
-      if (canvasCapture.isRecording()) {
-        canvasCapture.recordFrame();
-      }
-    }
-  });
+    if (canvasCapture && canvasCapture.isRecording()) canvasCapture.recordFrame();
+  }
+  
+  loop();
+ 
 
   window.addEventListener('resize', () => {
     engine.resize();

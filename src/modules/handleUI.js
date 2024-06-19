@@ -1,4 +1,4 @@
-import { getCanvasCapture, getIsRecording, setIsRecording } from "../utils/store";
+import { getCanvasCapture, getIsPlaying, getIsRecording, setIsRecording } from "../utils/store";
 import setupCanvasCapture from "./setupCanvasCapture";
 
 function handleUI() {
@@ -23,19 +23,28 @@ function handleUI() {
     updateLabel(fileModelInput, fileModelWrapper);
 
     const recordBtn = document.getElementById('record-btn');
+    const modal = document.querySelector('.progress-modal');
 
     recordBtn.addEventListener('click', async () => {
         let canvasCapture = getCanvasCapture();
         if (!canvasCapture) {
             await setupCanvasCapture();
             canvasCapture = getCanvasCapture();
+            console.log('canvasCapture',)
         }
 
         if (!getIsRecording()) {
             canvasCapture.beginGIFRecord({
                 name: '3DANI',
-                fps: 30,
-                quality: 0.6,
+                // 프레임을 
+                fps: 10,
+                quality: 0.1,
+                onExportProgress: (progress) => {
+                    modal.classList.add('active')
+                    const progressBar = document.getElementById('progress-bar');
+                    progressBar.style.width = `${progress * 100}%`;
+                    progressBar.textContent = `Progress: ${(progress * 100).toFixed(2)}%`;
+                },
                 onExport: (blob, filename) => {
                     const exportSpan = document.createElement('span');
                     exportSpan.className = 'record-export';
@@ -55,6 +64,7 @@ function handleUI() {
                 },
                 onExportFinish: () => {
                     alert('GIF recording finished');
+                    modal.classList.remove('active')
                 },
                 onError: (error) => {
                     console.error('GIF recording error:', error);
