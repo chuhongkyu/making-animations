@@ -4,10 +4,10 @@ async function setupCanvasCapture() {
     if (typeof window !== 'undefined') {
         const { CanvasCapture } = await import('canvas-capture');
         CanvasCapture.init(document.getElementById('view-canvas'), {
-            showRecDot: true,
+            showRecDot: false,
             verbose: false,
-            width: 640,
-            height: 480
+            width: 500,
+            height: 500
         });
 
         setCanvasCapture(CanvasCapture);

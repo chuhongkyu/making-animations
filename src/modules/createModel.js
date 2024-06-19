@@ -86,6 +86,7 @@ function setupAnimation(scene, characterBones, baseRotations, shadowGenerator) {
         bone.animatable = characterAnimatable;
     });
 
+    if(!shadowGenerator) return;
     const { boxAnimatable1, boxAnimatable2 } = visualEffect(frameRate, totalFrames, scene, shadowGenerator)
 
     const audioPlayer = document.getElementById('audio-player');
