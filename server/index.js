@@ -4,8 +4,11 @@ const path = require('path');
 const fs = require('fs');
 const convert = require('fbx2gltf');
 const cors = require('cors');
-const GIFEncoder = require('gifencoder'); //m1 주석처리
-const { createCanvas, loadImage } = require('canvas'); //m1 주석처리
+
+// mac 주석 부분 //
+const GIFEncoder = require('gifencoder');
+const { createCanvas, loadImage } = require('canvas');
+// mac 주석 부분 //
 
 const app = express();
 const PORT = 3000;
