@@ -6,8 +6,9 @@ let model = {
     url: null,
     fileName: null,
 };
-let canvasCapture = null;
 let isRecording = false;
+let engine = null;
+let scene = null;
 
 export function setBPM(newBPM) {
     bpm = newBPM;
@@ -49,18 +50,27 @@ export function getModel() {
     return model;
 }
 
-export function setCanvasCapture(capture) {
-    canvasCapture = capture;
-}
-
-export function getCanvasCapture() {
-    return canvasCapture;
-}
-
 export function setIsRecording(recording) {
     isRecording = recording;
 }
 
 export function getIsRecording() {
     return isRecording;
+}
+
+
+export function setEngine(newEngine) {
+    engine = newEngine;
+}
+
+export function getEngine() {
+    return engine;
+}
+
+export function setScene(newScene) {
+    scene = newScene;
+}
+
+export function getScene() {
+    return scene;
 }

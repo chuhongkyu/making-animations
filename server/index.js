@@ -4,20 +4,24 @@ const path = require('path');
 const fs = require('fs');
 const convert = require('fbx2gltf');
 const cors = require('cors');
+const GIFEncoder = require('gifencoder');
+const { createCanvas, loadImage } = require('canvas');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use(express.json({ limit: '50mb' }));
 app.use('/converted', express.static(path.join(__dirname, 'upload/converted')));
+app.use('/gifs', express.static(path.join(__dirname, 'upload/gifs')));
 
+// 기존 클린업 함수
 const cleanFiles = (directory) => {
   fs.readdir(directory, (err, files) => {
     if (err) {
       console.error(`Failed: ${err}`);
       return;
     }
-
     for (const file of files) {
       const filePath = path.join(directory, file);
       if (file !== '.gitkeep') {
@@ -33,12 +37,11 @@ const cleanFiles = (directory) => {
   });
 };
 
-
-const storage = multer.diskStorage({
+// fbx 파일 업로드 설정
+const storageFbx = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, 'upload/');
     fs.mkdirSync(uploadPath, { recursive: true });
-    // cleanFiles(uploadPath);
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -46,16 +49,29 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+// 프레임 업로드 설정
+const storageFrames = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, 'upload/frames/');
+    fs.mkdirSync(uploadPath, { recursive: true });
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
 
-app.post('/upload', upload.single('file'), (req, res) => {
+const uploadFbx = multer({ storage: storageFbx });
+const uploadFrames = multer({ storage: storageFrames });
+
+// 기존 파일 업로드 라우트
+app.post('/upload', uploadFbx.single('file'), (req, res) => {
   const file = req.file;
   const srcPath = file.path;
   const destDir = path.join(__dirname, 'upload/converted/');
   const destPath = path.join(destDir, path.basename(srcPath, path.extname(srcPath)) + '.glb');
 
   fs.mkdirSync(destDir, { recursive: true });
-  // cleanFiles(destDir);
 
   convert(srcPath, destPath, ['--khr-materials-unlit']).then(
     () => {
@@ -71,6 +87,52 @@ app.post('/upload', upload.single('file'), (req, res) => {
       res.status(500).send("Error converting file.");
     }
   );
+});
+
+// 새로운 프레임 업로드 라우트
+app.post('/upload-frame', uploadFrames.single('frame'), (req, res) => {
+  const file = req.file;
+  if (!file) {
+    return res.status(400).send('No file uploaded.');
+  }
+  res.status(200).send('Frame uploaded successfully.');
+});
+
+// GIF 생성 라우트
+app.get('/generate-gif', async (req, res) => {
+  const framesDir = path.join(__dirname, 'upload/frames');
+  const files = fs.readdirSync(framesDir).filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg'));
+  
+  if (files.length === 0) {
+    return res.status(400).send('No frames available to create GIF.');
+  }
+
+  const encoder = new GIFEncoder(500, 500);
+  encoder.start();
+  encoder.setRepeat(0);
+  encoder.setDelay(100);
+  encoder.setQuality(10);
+
+  const canvas = createCanvas(500, 500);
+  const ctx = canvas.getContext('2d');
+
+  for (const file of files) {
+    const filePath = path.join(framesDir, file);
+    const img = await loadImage(filePath);
+    ctx.drawImage(img, 0, 0, 500, 500);
+    encoder.addFrame(ctx);
+  }
+
+  encoder.finish();
+  const gifBuffer = encoder.out.getData();
+
+  const gifPath = path.join(__dirname, 'upload/gifs/animation.gif');
+  fs.writeFileSync(gifPath, gifBuffer);
+
+  cleanFiles(framesDir);
+
+  res.setHeader('Content-Type', 'image/gif');
+  res.sendFile(gifPath);
 });
 
 app.listen(PORT, () => {

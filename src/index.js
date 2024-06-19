@@ -6,7 +6,7 @@ import './styles.css';
 import createScene from './modules/createScene';
 import { setupModelUpload, setupSoundUpload } from './modules/setupHandler';
 import { handleUI } from './modules/handleUI';
-import { getCanvasCapture } from './utils/store';
+import { setScene, setEngine } from './utils/store';
 
 window.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('view-canvas');
@@ -14,9 +14,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const scene = createScene(engine, canvas);
 
-  // scene.debugLayer.show({
-  //   embedMode:true
-  // });
+  setScene(scene);
+  setEngine(engine);
 
   handleUI();
   setupModelUpload(scene);
@@ -25,15 +24,6 @@ window.addEventListener('DOMContentLoaded', () => {
   engine.runRenderLoop(() => {
     scene.render();
   });
-
-  function loop() {
-    requestAnimationFrame(loop);
-    const canvasCapture = getCanvasCapture();
-    if (canvasCapture && canvasCapture.isRecording()) canvasCapture.recordFrame();
-  }
-  
-  loop();
- 
 
   window.addEventListener('resize', () => {
     engine.resize();

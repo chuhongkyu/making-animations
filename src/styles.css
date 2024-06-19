@@ -261,18 +261,31 @@ body{
 }
 
 .progress-modal .progress-wrapper{
-    margin-top: 15px;
-    width: 100%;
-    border-radius: 25px;
-    height: 25px;
-    border: 1px solid #333;
-    overflow: hidden;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#progress-bar{
-    background: #333;
-    transition: 300ms ease-in-out;
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #0f0f0f;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
 }
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+} 
 
 #record-btn{
     width: 35px;
