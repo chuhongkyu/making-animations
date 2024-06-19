@@ -61,4 +61,8 @@ async function setupCanvasCapture() {
 ```
 
 - 클라이언트 측 GIF 생성시 브라우저 메모리 사용량이 엄청남.
-- 서버로 보내는것으로 해결해야할것같은데.
+- 서버로 보내는것으로 해결해야할것 같은데 m1 칩 canvas 라이브러리 설치가 안됨.
+
+- window로 작업하기로 결정.
+
+![Gif](./src/assets/img/animation.gif)

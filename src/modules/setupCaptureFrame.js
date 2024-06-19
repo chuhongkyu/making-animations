@@ -6,8 +6,8 @@ async function captureFrame() {
   const camera = getScene().activeCamera;
   const size = { width: 500, height: 500 };
   const mimeType = "image/jpeg";
-  const quality = 0.5;
-  
+  const quality = 1;
+
   return new Promise((resolve, reject) => {
     if (!engine || !camera) {
       reject(new Error('Engine or camera is not initialized.'));

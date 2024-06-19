@@ -4,8 +4,8 @@ const path = require('path');
 const fs = require('fs');
 const convert = require('fbx2gltf');
 const cors = require('cors');
-const GIFEncoder = require('gifencoder');
-const { createCanvas, loadImage } = require('canvas');
+const GIFEncoder = require('gifencoder'); //m1 주석처리
+const { createCanvas, loadImage } = require('canvas'); //m1 주석처리
 
 const app = express();
 const PORT = 3000;
@@ -15,7 +15,6 @@ app.use(express.json({ limit: '50mb' }));
 app.use('/converted', express.static(path.join(__dirname, 'upload/converted')));
 app.use('/gifs', express.static(path.join(__dirname, 'upload/gifs')));
 
-// 기존 클린업 함수
 const cleanFiles = (directory) => {
   fs.readdir(directory, (err, files) => {
     if (err) {
@@ -64,7 +63,6 @@ const storageFrames = multer.diskStorage({
 const uploadFbx = multer({ storage: storageFbx });
 const uploadFrames = multer({ storage: storageFrames });
 
-// 기존 파일 업로드 라우트
 app.post('/upload', uploadFbx.single('file'), (req, res) => {
   const file = req.file;
   const srcPath = file.path;
@@ -89,7 +87,6 @@ app.post('/upload', uploadFbx.single('file'), (req, res) => {
   );
 });
 
-// 새로운 프레임 업로드 라우트
 app.post('/upload-frame', uploadFrames.single('frame'), (req, res) => {
   const file = req.file;
   if (!file) {
@@ -98,7 +95,6 @@ app.post('/upload-frame', uploadFrames.single('frame'), (req, res) => {
   res.status(200).send('Frame uploaded successfully.');
 });
 
-// GIF 생성 라우트
 app.get('/generate-gif', async (req, res) => {
   const framesDir = path.join(__dirname, 'upload/frames');
   const files = fs.readdirSync(framesDir).filter(file => file.endsWith('.jpg') || file.endsWith('.jpeg'));
