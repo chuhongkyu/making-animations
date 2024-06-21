@@ -80,3 +80,13 @@
 // mixamorig:RightFootPinky1
 // mixamorig:RightFootPinky2
 // mixamorig:RightFootPinky3
+
+
+
+export const mixamoBoneNames = [
+    'mixamorig:Neck', 'mixamorig:LeftShoulder', 'mixamorig:RightShoulder',
+    'mixamorig:LeftLeg', 'mixamorig:RightLeg', 'mixamorig:LeftUpLeg',
+    'mixamorig:LeftFoot', 'mixamorig:LeftToeBase', 'mixamorig:RightUpLeg',
+    'mixamorig:RightFoot', 'mixamorig:RightToeBase', 'mixamorig:LeftHand',
+    'mixamorig:RightHand', 'mixamorig:Hips'
+];
