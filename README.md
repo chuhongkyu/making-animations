@@ -5,6 +5,14 @@
 npm i 
 ```
 
+- 맥 유저 분들을 위한 설정
+canvas 라이브러리가 설치되지 않음.
+- https://github.com/Automattic/node-canvas
+```
+ $ npm install canvas
+ $ brew install pkg-config cairo pango libpng jpeg giflib librsvg pixman python-setuptools
+```
+
 - npm start로 프로젝트를 실행합니다. 
     - 서버와 같이 실행됨.
     - ("start": "concurrently \"npm run server\" \"npm run dev\"")
